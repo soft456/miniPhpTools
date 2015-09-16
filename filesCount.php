@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * 统计文件棵树
@@ -10,21 +9,7 @@
  *
  * @copyright  Copyright (c) 2014 Wuhan Bo Sheng Education Information Co., Ltd.
  */
-function getDirFiles($pathName, $exts, &$count)
-{
-    foreach (glob($pathName) as $fileName) {
-        if (is_dir($fileName)) {
-            getDirFiles($fileName . DIRECTORY_SEPARATOR . '*', $exts, $count);
-        } else {
-            if (in_array(pathinfo($fileName, PATHINFO_EXTENSION), $exts)) {
-                $count ++ ;
-            }
-        }
-    }
-    return 'Completed! Count:'.$count;
-}
-
-if ($_POST['btn']) {
+if (isset($_POST['btn']) && $_POST['btn']) {
 
     $olePath = trim($_POST['path']);
     $path = $olePath . DIRECTORY_SEPARATOR . '*';
@@ -34,6 +19,19 @@ if ($_POST['btn']) {
     echo getDirFiles($path, explode('|', $exts), $count);
     echo '<br><br><a href="">返回</a>';
     exit;
+}
+
+function getDirFiles($pathName, $exts, &$count) {
+    foreach (glob($pathName) as $fileName) {
+        if (is_dir($fileName)) {
+            getDirFiles($fileName . DIRECTORY_SEPARATOR . '*', $exts, $count);
+        } else {
+            if (in_array(pathinfo($fileName, PATHINFO_EXTENSION), $exts)) {
+                $count ++;
+            }
+        }
+    }
+    return 'Completed! Count:' . $count;
 }
 ?>
 

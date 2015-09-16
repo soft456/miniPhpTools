@@ -1,56 +1,8 @@
 <?php
-function getSubDir($dirPath)
-{
-    if ($handle = opendir($dirPath)) {
-        $i = 0;
-        while (false !== ($resource = readdir($handle))) {
-            if ($resource != "." && $resource != ".." && is_dir($dirPath . "\\" . $resource)) {
-                $dirArray[$i] = $dirPath . "\\" . $resource;
-                $i++;
-            }
-        }
-    } else {
-        $dirArray = false;
-    }
-    return $dirArray;
-}
-
-//取得文件列表
-function getFileList($path, $type = ".php")
-{
-    if ($handle = opendir($path)) {
-        $i = 0;
-        while (false !== ($resource = readdir($handle))) {
-            if (strtolower(substr($resource, -(strlen($type)))) == strtolower($type)) {
-                $fileArray[$i] = $path . "/" . $resource;
-                $i++;
-            }
-        }
-    } else {
-        $fileArray = false;
-    }
-    return $fileArray;
-}
-
-function writePhpList($oFile, $sDir, $sRootPath)
-{
-
-    $aFile = getFileList($sDir);
-    for ($i = 0; $i < count($aFile); $i++) {
-        $sTemp = str_replace($sRootPath, ".", $aFile[$i]);
-        $sTemp = str_replace("\\", "/", $sTemp);
-        fwrite($oFile, $sTemp . "\n");
-    }
-
-    $aSubDir = getSubDir($sDir);
-    if ($aSubDir != false) {
-        for ($i = 0; $i < count($aSubDir); $i++) {
-            writePhpList($oFile, $aSubDir[$i], $sRootPath);
-        }
-    }
-}
-
-if ($_POST["form_over"] == "ok") {
+/**
+ *  生成文件列表
+ */
+if (isset($_POST["form_over"]) && ($_POST["form_over"] == "ok")) {
 
     $sRootPath = $_POST["root_path"];
     if ($sRootPath == "") {
@@ -66,6 +18,71 @@ if ($_POST["form_over"] == "ok") {
     $oListFile = fopen($sRootPath . "\\" . $sListFileName, "w");
 
     writePhpList($oListFile, $sRootPath, $sRootPath);
+}
+
+/**
+ * 
+ * @param type $dirPath
+ * @return array
+ */
+function getSubDir($dirPath) {
+
+    $dirArray = array();
+
+    if ($handle = opendir($dirPath)) {
+        $i = 0;
+        while (false !== ($resource = readdir($handle))) {
+            if ($resource != "." && $resource != ".." && is_dir($dirPath . "\\" . $resource)) {
+                $dirArray[$i] = $dirPath . "\\" . $resource;
+                $i++;
+            }
+        }
+    }
+
+    return $dirArray;
+}
+
+/**
+ *  取得文件列表
+ */
+function getFileList($path, $type = ".php") {
+
+    $fileArray = array();
+
+    if ($handle = opendir($path)) {
+        $i = 0;
+        while (false !== ($resource = readdir($handle))) {
+            if (strtolower(substr($resource, -(strlen($type)))) == strtolower($type)) {
+                $fileArray[$i] = $path . "/" . $resource;
+                $i++;
+            }
+        }
+    }
+
+    return $fileArray;
+}
+
+/**
+ * 
+ * @param type $oFile
+ * @param type $sDir
+ * @param type $sRootPath
+ */
+function writePhpList($oFile, $sDir, $sRootPath) {
+
+    $aFile = getFileList($sDir);
+    for ($i = 0; $i < count($aFile); $i++) {
+        $sTemp = str_replace($sRootPath, ".", $aFile[$i]);
+        $sTemp = str_replace("\\", "/", $sTemp);
+        fwrite($oFile, $sTemp . "\n");
+    }
+
+    $aSubDir = getSubDir($sDir);
+    if ($aSubDir != false) {
+        for ($i = 0; $i < count($aSubDir); $i++) {
+            writePhpList($oFile, $aSubDir[$i], $sRootPath);
+        }
+    }
 }
 ?>
 
@@ -83,7 +100,7 @@ if ($_POST["form_over"] == "ok") {
 
         <TABLE>
 
-            <FORM METHOD=POST ACTION="<? $_SERVER["PHP_SELF"] ?>">
+            <FORM METHOD=POST ACTION="<?php echo $_SERVER["PHP_SELF"] ?>">
                 <TR>
                     <TD>
                         目录路径：<INPUT TYPE="text" NAME="root_path">

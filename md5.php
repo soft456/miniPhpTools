@@ -1,6 +1,6 @@
 <?php
 header("Content-Type:text/html;charset=UTF-8");
-if ($_POST["str"]) {
+if (isset($_POST["str"]) && $_POST["str"]) {
 
     $btn = trim($_POST['btn']);
     $s = $_POST["str"];

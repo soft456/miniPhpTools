@@ -40,7 +40,7 @@
          *
          * @copyright  Copyright (c) 2014 Wuhan Bo Sheng Education Information Co., Ltd.
          */
-        if ($_POST["host"]) {
+        if (isset($_POST["host"]) && $_POST["host"]) {
 
             foreach ($_POST as $key => &$value) {
                 $value = trim($value);
@@ -55,18 +55,22 @@
 
             $dbName = trim($_POST['dbName']);
 
-            $conn = mysql_connect($_POST['host'], $_POST['user'], $_POST['pwd']) or die('Connection to db error!');
-            mysql_select_db($dbName, $conn);
+//            $conn = mysql_connect($_POST['host'], $_POST['user'], $_POST['pwd']) or die('Connection to db error!');
+
+            $port = isset($_POST['port']) ? intval($_POST['port']) : '3306';
+            $connObj = new PDO("mysql:host={$_POST['host']};port={$port};dbname={$dbName}", $_POST['user'], $_POST['pwd']) or die('Connection to db error!');
+
+//            mysql_select_db($dbName, $conn);
+
+            $connObj->query("use {$dbName};");
 
             //获取表列表
             $query = "SELECT TABLE_NAME,TABLE_COMMENT
                   FROM INFORMATION_SCHEMA.TABLES  
                   WHERE table_schema = '" . $dbName . "'";
             $isAllTable || $query .= " and table_name in('" . str_replace("|", " ','", $_POST['table']) . "')";
-            $rows = mysql_query($query, $conn) or die($query);
-            while ($data = @mysql_fetch_array($rows)) {
-                $tableRs[] = $data;
-            }
+            $tableStatement = $connObj->query($query) or die($query);
+            $tableRs = $tableStatement->fetchAll();
 
             //获取每个表的字段列表
             foreach ($tableRs as $key => $value) {
@@ -76,15 +80,12 @@
               WHERE table_schema = '" . $dbName . "' and table_name='" . $value['TABLE_NAME'] . "'
               ORDER BY ordinal_position";
 
-                $rows = mysql_query($query, $conn) or die($query);
+                $fieldStatement = $connObj->query($query);
                 $fieldRs[$value['TABLE_NAME']]['comment'] = $value['TABLE_COMMENT'];
-
-                while ($data = @mysql_fetch_array($rows)) {
-                    $fieldRs[$value['TABLE_NAME']]['data'][] = $data;
-                }
+                $fieldRs[$value['TABLE_NAME']]['data'] = $fieldStatement->fetchAll();
             }
 
-            mysql_close($conn);
+            $connObj = NULL;
 
             //输出
             if (isset($_POST['toWord']) && $_POST['toWord']) {
@@ -126,8 +127,7 @@
          * @param array $data 固定数据数组。
          * @return word头文件格式
          */
-        function _makeWord($fieldRs, $fileName)
-        {
+        function _makeWord($fieldRs, $fileName) {
             header("Pragma: public");
             header("Expires: 0"); // set expiration time
             header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
