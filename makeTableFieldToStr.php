@@ -1,3 +1,13 @@
+<?php
+/**
+ *
+ * mysql 将表的字段名逗号分隔返回
+ *
+ * @author soft456@gmail.com
+ * @date 2015-05-13
+ *
+ */
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -30,15 +40,6 @@
 
 
         <?php
-        /**
-         *
-         * mysql 将表的字段名逗号分隔返回
-         *
-         * @author soft456@gmail.com
-         * @date 2015-05-13
-         *
-         * @copyright  Copyright (c) 2014 Wuhan Bo Sheng Education Information Co., Ltd.
-         */
         if ($_POST["host"]) {
 
             foreach ($_POST as $key => &$value) {

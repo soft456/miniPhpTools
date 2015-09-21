@@ -1,3 +1,13 @@
+<?php
+/**
+ *
+ * 从数据库生成数据库说明文档
+ *
+ * @author soft456@gmail.com
+ * @date 2013-08-21
+ *
+ */
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -30,16 +40,6 @@
 
 
         <?php
-        /**
-         *
-         * 从数据库生成数据库说明文档
-         *
-         * @author soft456@gmail.com
-         * @date 2013-08-21
-         * @varsion 1.0
-         *
-         * @copyright  Copyright (c) 2014 Wuhan Bo Sheng Education Information Co., Ltd.
-         */
         if (isset($_POST["host"]) && $_POST["host"]) {
 
             foreach ($_POST as $key => &$value) {
@@ -121,11 +121,10 @@
         }
 
         /**
-         * 生成WORD文档
+         *  生成WORD文档
          * 
-         * @param array $stuRs 要打印通知书的学生数据
-         * @param array $data 固定数据数组。
-         * @return word头文件格式
+         * @param array $fieldRs
+         * @param string $fileName
          */
         function _makeWord($fieldRs, $fileName) {
             header("Pragma: public");

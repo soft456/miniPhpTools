@@ -1,13 +1,11 @@
 <?php
 /**
  *
- * 统计文件棵树
+ * 统计文件个数
  *
  * @author soft456@gmail.com
  * @date 2014-01-21
- * @varsion 1.0
  *
- * @copyright  Copyright (c) 2014 Wuhan Bo Sheng Education Information Co., Ltd.
  */
 if (isset($_POST['btn']) && $_POST['btn']) {
 

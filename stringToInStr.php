@@ -1,4 +1,7 @@
 <?php
+/**
+ * 生成逗号分隔的字符串
+ */
 if (isset($_POST['btn1']) && $_POST["btn1"]) {
     $str = trim($_POST["str"]);
     $ret = transForm($str);

@@ -1,4 +1,7 @@
 <?php
+/**
+ * 时间戳字符串转换
+ */
 if (isset($_POST['timestamp']) && $_POST['timestamp']) {
     echo $_POST['timestamp'] . ' ==>  ';
     echo date('Y-m-d H:i:s', trim($_POST['timestamp']));

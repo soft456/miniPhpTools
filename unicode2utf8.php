@@ -1,4 +1,7 @@
 <?php
+/**
+ * unicode2utf8
+ */
 if (isset($_POST['btn1']) && $_POST["btn1"]) {
     $str = trim($_POST["str"]);
     $ret = unicode2utf8($str);
