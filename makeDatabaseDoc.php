@@ -121,11 +121,10 @@
         }
 
         /**
-         * 生成WORD文档
+         *  生成WORD文档
          * 
-         * @param array $stuRs 要打印通知书的学生数据
-         * @param array $data 固定数据数组。
-         * @return word头文件格式
+         * @param array $fieldRs
+         * @param string $fileName
          */
         function _makeWord($fieldRs, $fileName) {
             header("Pragma: public");
