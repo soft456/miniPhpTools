@@ -62,6 +62,8 @@
 
 //            mysql_select_db($dbName, $conn);
 
+            $connObj->query("SET NAMES 'utf8';");
+
             $connObj->query("use {$dbName};");
 
             //获取表列表
@@ -163,11 +165,11 @@
         <br>
             <table width="800" border="0">
                 <FORM METHOD=POST ACTION="">
-                    <tr><td>host</td><td><INPUT TYPE="text" NAME="host" value="172.16.0.3"></td></tr>
-                    <tr><td>user</td><td><INPUT TYPE="text" NAME="user" value="cjtest"></td></tr>
-                    <tr><td>pwd</td><td><INPUT TYPE="password" NAME="pwd" value="test"></td></tr>
-                    <tr><td>db name</td><td><INPUT TYPE="text" NAME="dbName" value="dodopemp"></td></tr>
-                    <tr><td>table</td><td><INPUT TYPE="text" size="80" NAME="table" value="pemp_bulletin">多表|号分隔</td></tr>
+                    <tr><td>host</td><td><INPUT TYPE="text" NAME="host" value="192.168.1.222"></td></tr>
+                    <tr><td>user</td><td><INPUT TYPE="text" NAME="user" value="dev"></td></tr>
+                    <tr><td>pwd</td><td><INPUT TYPE="password" NAME="pwd" value="dev963"></td></tr>
+                    <tr><td>db name</td><td><INPUT TYPE="text" NAME="dbName" value="product"></td></tr>
+                    <tr><td>table</td><td><INPUT TYPE="text" size="80" NAME="table" value="">多表|号分隔</td></tr>
                     <tr><td>to word</td><td><INPUT TYPE="checkbox" NAME="toWord" value="1"></td></tr>
                     <tr><td colspan="2"><INPUT TYPE="submit" value="submit"></td></tr>
                 </FORM>
