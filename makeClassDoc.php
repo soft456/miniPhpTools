@@ -70,7 +70,6 @@
 
             //排除部分方法
             $ignoreFuncRs = array('__get', '_before_index', '_after_index', '_initialize', '__construct', 'getActionName', 'isAjax', 'display', 'show', 'fetch', 'buildHtml', 'assign', '__set', 'get', '__get', '__isset', '__call', 'error', 'success', 'ajaxReturn', 'redirect', '__destruct', '_empty');
-
             if (!file_exists($classFileName)) {
                 return FALSE;
             }
@@ -98,7 +97,7 @@
         ?>
 
         <FORM METHOD=POST ACTION="">
-            类文件：<INPUT TYPE="text" name="path" size="60" value="E:\www\account\controllers\UserAdminController" />    
+            类文件：<INPUT TYPE="text" name="path" size="60" value="/data/webapp/www/ms/application/controllers/Speed.php" />    
             <!--    忽略：<INPUT TYPE="text" name="ignore_dir" value="cola|config|views"> 如：cola|config|views-->
             <INPUT TYPE="submit" name="btn" value="确定" />
         </FORM>

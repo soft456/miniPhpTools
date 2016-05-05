@@ -19,18 +19,21 @@ if (isset($_POST['btn']) && $_POST['btn']) {
     exit;
 }
 
-function getDirFiles($pathName, $exts, $ignoreRs = array())
-{
+function getDirFiles($pathName, $exts, $ignoreRs = array()) {
     foreach (glob($pathName) as $fileName) {
         //忽略的目录
+
         $fileNameInfo = pathinfo($fileName);
+
         if (in_array(strtolower($fileNameInfo['basename']), $ignoreRs)) {
+            echo 'ig > ' . strtolower($fileNameInfo['basename']);
             continue;
         }
+
         //目录
         if (is_dir($fileName)) {
             echo 'Dir ：' . $fileName . '<br>';
-            getDirFiles($fileName . DIRECTORY_SEPARATOR . '*', $exts);
+            getDirFiles($fileName . DIRECTORY_SEPARATOR . '*', $exts, $ignoreRs);
             continue;
         }
 
@@ -47,8 +50,7 @@ function getDirFiles($pathName, $exts, $ignoreRs = array())
 /**
  * 获取程序文件的文件头注释的标题
  */
-function getFileCommentTitle($filename, $startLine = 1, $endLine = 50, $method = 'rb')
-{
+function getFileCommentTitle($filename, $startLine = 1, $endLine = 50, $method = 'rb') {
     $ret = '';
     $count = $endLine - $startLine;
 
@@ -67,8 +69,8 @@ function getFileCommentTitle($filename, $startLine = 1, $endLine = 50, $method =
 ?>
 
 <FORM METHOD=POST ACTION="">
-    目录：<INPUT TYPE="text" name="path" value="E:\www\account">
+    目录：<INPUT TYPE="text" name="path" value="/data/webapp/www/ms">
     扩展名：<INPUT TYPE="text" name="ext_name" value="php"> 如：php|java
-    忽略：<INPUT TYPE="text" name="ignore_dir" value="cola|config|views"> 如：cola|config|views
+    忽略：<INPUT TYPE="text" name="ignore_dir" value="conf|log|public|views"> 如：cola|config|views
     <INPUT TYPE="submit" name="btn" value="生成文档">
 </FORM>
