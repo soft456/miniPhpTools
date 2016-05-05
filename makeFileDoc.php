@@ -26,13 +26,12 @@ function getDirFiles($pathName, $exts, $ignoreRs = array()) {
         $fileNameInfo = pathinfo($fileName);
 
         if (in_array(strtolower($fileNameInfo['basename']), $ignoreRs)) {
-            echo 'ig > ' . strtolower($fileNameInfo['basename']);
             continue;
         }
 
         //目录
         if (is_dir($fileName)) {
-            echo 'Dir ：' . $fileName . '<br>';
+            echo '<br>Dir ：' . $fileName . '<br>';
             getDirFiles($fileName . DIRECTORY_SEPARATOR . '*', $exts, $ignoreRs);
             continue;
         }
@@ -40,8 +39,8 @@ function getDirFiles($pathName, $exts, $ignoreRs = array()) {
         //文件
         if (in_array(pathinfo($fileName, PATHINFO_EXTENSION), $exts)) {
             $commentTitle = getFileCommentTitle($fileName, 1, 10);
-            echo 'File：' . $fileName . '  —— ' . $commentTitle;
-            echo '<br><br>';
+            echo 'File：<a href="makeClassDoc.php?btn=1&fn=' . $fileName . '" target="_blank">' . $fileName . '</a>  —— ' . $commentTitle;
+            echo '<br>';
         }
     }
     return 'Completed!';
@@ -71,6 +70,6 @@ function getFileCommentTitle($filename, $startLine = 1, $endLine = 50, $method =
 <FORM METHOD=POST ACTION="">
     目录：<INPUT TYPE="text" name="path" value="/data/webapp/www/ms">
     扩展名：<INPUT TYPE="text" name="ext_name" value="php"> 如：php|java
-    忽略：<INPUT TYPE="text" name="ignore_dir" value="conf|log|public|views"> 如：cola|config|views
+    忽略：<INPUT TYPE="text" name="ignore_dir" value="conf|log|public|views|appdata"> 如：cola|config|views
     <INPUT TYPE="submit" name="btn" value="生成文档">
 </FORM>
