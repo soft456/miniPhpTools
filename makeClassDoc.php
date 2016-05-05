@@ -39,9 +39,10 @@
     <body>        
 
         <?php
-        if (isset($_POST['btn']) && $_POST['btn']) {
+        if ((isset($_POST['btn']) && $_POST['btn']) || (isset($_GET['btn']) && $_GET['btn'])) {
 
             $olePath = trim($_POST['path']);
+            isset($_GET['fn']) && $olePath = trim($_GET['fn']);
 
             $rs = funcList($olePath);
 
@@ -77,7 +78,7 @@
             $fileStr = file_get_contents($classFileName);
 
             //获取注释标题和方法名的正则——限public方法
-            $pattern = '/\/\*\*.*?\*(.*?)[\b\/@\*].*?public.*?function(.*?)\(.*?\)/is';
+            $pattern = '/\{.*?\/\*\*.*?\*(.*?)[\b\n\/@\*].*?public.*?function(.*?)\(.*?\)/is';
             if (!preg_match_all($pattern, $fileStr, $funcRs)) {
                 echo "正则匹配失败！";
                 return FALSE;
